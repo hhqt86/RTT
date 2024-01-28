@@ -24,6 +24,8 @@
     <string name="recycler_row_header_label_bssid">BSSID</string>
     <string name="retrieving_access_points">Retrieving Access Points&#8230;</string>
     <string name="scan_wifi_button_label">Scan WiFi</string>
+    <string name="Training_button_label">Collect range for training</string>
+    <string name="Testing_button_label">Live Testing</string>
     <string name="introduction_text">Click the button below to scan access points.</string>
 
     <!-- Strings for AccessPointRangingResultsActivity. -->

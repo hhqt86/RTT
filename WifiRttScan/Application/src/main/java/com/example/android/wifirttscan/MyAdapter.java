@@ -29,6 +29,7 @@ import java.util.List;
  * Displays the ssid and bssid from a list of {@link ScanResult}s including a header at the top of
  * the {@link RecyclerView} to label the data.
  */
+
 public class MyAdapter extends RecyclerView.Adapter<ViewHolder> {
     private static final int HEADER_POSITION = 0;
 
@@ -38,7 +39,7 @@ public class MyAdapter extends RecyclerView.Adapter<ViewHolder> {
     private static ScanResultClickListener sScanResultClickListener;
 
     private List<ScanResult> mWifiAccessPointsWithRtt;
-
+    //private List<ResultView> mWifiAccessPointsWithRtt;
     public MyAdapter(List<ScanResult> list, ScanResultClickListener scanResultClickListener) {
         mWifiAccessPointsWithRtt = list;
         sScanResultClickListener = scanResultClickListener;
@@ -113,6 +114,10 @@ public class MyAdapter extends RecyclerView.Adapter<ViewHolder> {
             ScanResult currentScanResult = getItem(position);
 
             viewHolderItem.mSsidTextView.setText(currentScanResult.SSID);
+            /*String distanceList = "";
+            for (int i = 0; i < currentScanResult.distance.length; i++){
+                distanceList += currentScanResult.distance[i];
+            }*/
             viewHolderItem.mBssidTextView.setText(currentScanResult.BSSID);
 
         } else {
@@ -147,5 +152,16 @@ public class MyAdapter extends RecyclerView.Adapter<ViewHolder> {
     // list was clicked.
     public interface ScanResultClickListener {
         void onScanResultItemClick(ScanResult scanResult);
+    }
+}
+
+class ResultView{
+    double[] distance;
+    String ssIDandBssID;
+
+
+    public ResultView(String ssIDandBssIDinput, double[] distanceInput){
+        distance = distanceInput;
+        ssIDandBssIDinput = ssIDandBssIDinput;
     }
 }

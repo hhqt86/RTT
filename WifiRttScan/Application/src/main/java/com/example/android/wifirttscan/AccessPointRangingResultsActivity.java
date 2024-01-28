@@ -15,6 +15,7 @@
  */
 package com.example.android.wifirttscan;
 
+import android.Manifest;
 import android.Manifest.permission;
 import android.content.Context;
 import android.content.Intent;
@@ -25,18 +26,23 @@ import android.net.wifi.rtt.RangingResult;
 import android.net.wifi.rtt.RangingResultCallback;
 import android.net.wifi.rtt.WifiRttManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * Displays ranging information about a particular access point chosen by the user. Uses {@link
@@ -44,7 +50,7 @@ import java.util.List;
  */
 public class AccessPointRangingResultsActivity extends AppCompatActivity {
     private static final String TAG = "APRRActivity";
-
+    private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 1;
     public static final String SCAN_RESULT_EXTRA =
             "com.example.android.wifirttscan.extra.SCAN_RESULT";
 
@@ -146,9 +152,33 @@ public class AccessPointRangingResultsActivity extends AppCompatActivity {
         mStatisticRangeHistory = new ArrayList<>();
         mStatisticRangeSDHistory = new ArrayList<>();
 
+        // Check if permission to write to external storage is granted
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Permission is not granted, request it
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    REQUEST_WRITE_EXTERNAL_STORAGE);
+        } else {
+            // Permission is already granted, proceed to write the file
+
+        }
+
         resetData();
 
         startRangingRequest();
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_WRITE_EXTERNAL_STORAGE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, write the file
+
+            } else {
+                // Permission denied, handle accordingly
+            }
+        }
     }
 
     private void resetData() {
@@ -276,6 +306,7 @@ public class AccessPointRangingResultsActivity extends AppCompatActivity {
             // access points), this will only ever be one. (Use loops when requesting RangingResults
             // for multiple access points.)
             if (list.size() == 1) {
+
 
                 RangingResult rangingResult = list.get(0);
 
