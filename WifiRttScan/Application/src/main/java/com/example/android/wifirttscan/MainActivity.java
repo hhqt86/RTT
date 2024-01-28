@@ -612,6 +612,7 @@ public class MainActivity extends AppCompatActivity implements ScanResultClickLi
                     isEnoughData = false;
                 }
             }
+            //hhqt
             if (isEnoughData){
                 for (int i = 0; i < Config.numberOfExaminedAP; i++){
                     rangeDistanceListForNN[elementCountForNN][i] = rangeDistance[i];
